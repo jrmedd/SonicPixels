@@ -1,10 +1,14 @@
 ## About
 
-Micro:bit and Max frameworks for triggering multiple speakers in a grid arrangment. Massively WIP!
+[Micro:bit](http://microbit.org/) and [Max](https://cycling74.com) frameworks for triggering multiple speakers in a grid arrangment. Massively WIP!
+
+Ultimately, this wants to be an easy way of taking OSC/MIDI messages from other software, using Max as a middleware to send serial messages to a [MicroPython](https://github.com/bbcmicrobit/micropython) program running on the micro:bit.
+
+If you want to test the sketches currently here you'll need TouchOSC and Max or Max runtime. You can edit the serial port used by Max by ctrl/cmd+F to find the [serial] object in [sonicPixels.maxpat](https://github.com/jrmedd/SonicPixels/blob/master/sonicPixels.maxpat). You'll need to upload [serialFromUSB.py](https://github.com/jrmedd/SonicPixels/blob/master/serialFromUSB.py) to your micro:bit, and use the [microBitTouchOSC.touchosc](https://github.com/jrmedd/SonicPixels/blob/master/microBitTouchOSC.touchosc) template.
 
 ## Overview
 
-_From the original pitch written up my Cornbrook Creative and Noise Orchestra for Manchester Science Festival:_
+_From the original pitch written up my [Cornbrook Creative](http://cornbrookcreative.uk/) and [Noise Orchestra](https://noiseorchestra.org/) for [Manchester Science Festival](http://www.manchestersciencefestival.com/):_
 
 Imagine being a listener at the heart of a dynamic dawn chorus of bird song, the urban soundscape of Manchester City Centre, or the sounds of the Solar System as recorded by NASA’s Voyager missions.
 
