@@ -8,7 +8,7 @@ If you want to test the sketches currently here you'll need TouchOSC and Max or 
 
 ## Overview
 
-_From the original pitch written up my [Cornbrook Creative](http://cornbrookcreative.uk/) and [Noise Orchestra](https://noiseorchestra.org/) for [Manchester Science Festival](http://www.manchestersciencefestival.com/):_
+_From the original pitch written up by [Cornbrook Creative](http://cornbrookcreative.uk/) and [Noise Orchestra](https://noiseorchestra.org/) for [Manchester Science Festival](http://www.manchestersciencefestival.com/):_
 
 Imagine being a listener at the heart of a dynamic dawn chorus of bird song, the urban soundscape of Manchester City Centre, or the sounds of the Solar System as recorded by NASAâ€™s Voyager missions.
 
@@ -21,3 +21,7 @@ Like pixels on a screen, this bespoke audio delivery system would allow us to â€
 ...I'm successfully communicating with multiple Micro:bits using OSC messages, via a Max patch and radio:
 
 ![OSC to micro:bit demo](https://github.com/jrmedd/SonicPixels/blob/master/in_action.gif?raw=true)
+
+...and I'm now talking to multiple micro:bits on a grid:
+
+![OSC to micro:bit grid](https://github.com/jrmedd/SonicPixels/blob/master/grid_bits.gif?raw=true)
