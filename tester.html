@@ -36,6 +36,16 @@ for (var row = 0; row < numVoices; row ++) {
 $('#sequencer').css('width', seqWidth);
 $('#sequencer').css('height', seqHeight);
 
+var timingSequencer = new Nexus.Sequencer("#timing-grid", {
+  'size': [seqWidth, seqHeight/10],
+  'rows':1,
+  'columns':numSteps
+});
+var currentStep = 0;
+timingSequencer.on('step', function(s) {
+  currentStep = (currentStep+1)%numSteps;
+});
+
 for (var i = 0; i < 5; i ++) {
   $('<div id="grid-'+i+'"></div>"').appendTo("#sequencing-grids");
 }
@@ -43,15 +53,10 @@ var matrices = new Array();
 for (var i = 0; i < 5; i++) {
   matrices.push(new Nexus.Sequencer("#grid-"+i, {'columns':numVoices, 'rows':numSteps }))
   matrices[i].on('step', function(s) {
-    console.log(this.parent.id);
-    console.log(s);
+    console.log(this.parent.id + " column " + currentStep + ": "+ s.reverse().join(', '));
   })
 };
-var timingSequencer = new Nexus.Sequencer("#timing-grid", {
-  'size': [seqWidth, seqHeight/10],
-  'rows':1,
-  'columns':numSteps
-});
+
 $('#sequencer td').on('click', function(){
   var cellValues = $(this).attr('id').split('-').map(Number);
   var matrixIndex = cellValues[2];
@@ -73,16 +78,16 @@ var playbackToggle = new Nexus.TextButton('#toggle-playback',{
 playbackToggle.alternateText = 'Stop';
 playbackToggle.on('change', function(play) {
   if (play) {
-    timingSequencer.start();
     for (var i = 0; i < matrices.length; i ++) {
       matrices[i].start();
     }
+    timingSequencer.start();
   }
   else {
-    timingSequencer.stop();
     for (var i = 0; i < matrices.length; i ++) {
       matrices[i].stop();
     }
+    timingSequencer.stop();
   }
 })
 </script>
