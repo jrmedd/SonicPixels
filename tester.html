@@ -1,0 +1,88 @@
+<style>
+td {
+  border: 1px solid black;
+}
+#sequencing-grids {
+  display: none;
+}
+#toggle-playback {
+  font-family: sans-serif;
+}
+</style>
+
+
+<div id="sequencing-grids"></div>
+<table id="sequencer"></table>
+<div id="timing-grid"></div>
+<hr>
+<div id="toggle-playback"></div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="NexusUI.js"></script>
+<script>
+var seqWidth = 500;
+var seqHeight= 500;
+var colorGroups = ['white','blue','red','yellow', 'green'];
+var numVoices = 5;
+var numSteps = 5;
+for (var row = 0; row < numVoices; row ++) {
+  var tr = $('<tr>');
+  for (var col = 0; col < numSteps; col ++) {
+    $('<td id="'+col+'-'+row+'-0" class="sequencer-cell white"></td>').appendTo(tr);
+  }
+  tr.appendTo('#sequencer');
+};
+$('#sequencer').css('width', seqWidth);
+$('#sequencer').css('height', seqHeight);
+
+for (var i = 0; i < 5; i ++) {
+  $('<div id="grid-'+i+'"></div>"').appendTo("#sequencing-grids");
+}
+var matrices = new Array();
+for (var i = 0; i < 5; i++) {
+  matrices.push(new Nexus.Sequencer("#grid-"+i, {'columns':numVoices, 'rows':numSteps }))
+  matrices[i].on('step', function(s) {
+    console.log(this.parent.id);
+    console.log(s);
+  })
+};
+var timingSequencer = new Nexus.Sequencer("#timing-grid", {
+  'size': [seqWidth, seqHeight/10],
+  'rows':1,
+  'columns':numSteps
+});
+$('#sequencer td').on('click', function(){
+  var cellValues = $(this).attr('id').split('-').map(Number);
+  var matrixIndex = cellValues[2];
+  $(this).removeClass(colorGroups[matrixIndex]);
+  matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 0);
+  matrixIndex = (matrixIndex + 1) % 5;
+  matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 1);
+  $(this).addClass(colorGroups[matrixIndex]);
+  $(this).css('background', colorGroups[matrixIndex]);
+  cellValues[2] = matrixIndex;
+  $(this).attr('id',cellValues.join('-'));
+});
+var playbackToggle = new Nexus.TextButton('#toggle-playback',{
+    'size': [150,50],
+    'text': 'Play',
+    'mode': 'toggle',
+    'alternateText': 'Stop'
+});
+playbackToggle.alternateText = 'Stop';
+playbackToggle.on('change', function(play) {
+  if (play) {
+    timingSequencer.start();
+    for (var i = 0; i < matrices.length; i ++) {
+      matrices[i].start();
+    }
+  }
+  else {
+    timingSequencer.stop();
+    for (var i = 0; i < matrices.length; i ++) {
+      matrices[i].stop();
+    }
+  }
+})
+</script>
