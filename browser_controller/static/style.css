@@ -1,0 +1,9 @@
+td {
+  border: 1px solid black;
+}
+#sequencing-grids {
+  display: none;
+}
+#toggle-playback {
+  font-family: sans-serif;
+}

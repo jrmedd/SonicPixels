@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div id="sequencing-grids"></div>
+<table id="sequencer"></table>
+<div id="timing-grid"></div>
+<hr>
+<div id="toggle-playback"></div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='socket.io.min.js') }}">
+
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='NexusUI.js') }}"></script>
+<script type="text/javascript">
+var socket = io.connect('http://' + '{{ ip }}' + ':' + location.port);
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='interface.js') }}"></script>
+
+</body>
+</html>

@@ -11,15 +11,7 @@ td {
 </style>
 
 
-<div id="sequencing-grids"></div>
-<table id="sequencer"></table>
-<div id="timing-grid"></div>
-<hr>
-<div id="toggle-playback"></div>
 
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="NexusUI.js"></script>
 <script>
 var seqWidth = 500;
 var seqHeight= 500;
@@ -54,7 +46,7 @@ for (var i = 0; i < 5; i++) {
   matrices.push(new Nexus.Sequencer("#grid-"+i, {'columns':numVoices, 'rows':numSteps }))
   matrices[i].on('step', function(s) {
     console.log(this.parent.id + " column " + currentStep + ": "+ s.reverse().join(', '));
-  })
+  });
 };
 
 $('#sequencer td').on('click', function(){
@@ -89,5 +81,5 @@ playbackToggle.on('change', function(play) {
     }
     timingSequencer.stop();
   }
-})
+});
 </script>
