@@ -20,8 +20,12 @@ Like pixels on a screen, this bespoke audio delivery system would allow us to â€
 
 ...I'm successfully communicating with multiple Micro:bits using OSC messages, via a Max patch and radio:
 
-![OSC to micro:bit demo](https://github.com/jrmedd/SonicPixels/blob/master/in_action.gif?raw=true)
+![OSC to micro:bit demo](https://github.com/jrmedd/SonicPixels/blob/master/docs/in_action.gif?raw=true)
 
 ...and I'm now talking to multiple micro:bits on a grid:
 
-![OSC to micro:bit grid](https://github.com/jrmedd/SonicPixels/blob/master/grid_bits.gif?raw=true)
+![OSC to micro:bit grid](https://github.com/jrmedd/SonicPixels/blob/master/docs/grid_bits.gif?raw=true)
+
+...and I'm creating a better custom interface for doing OSC:
+
+![HTML OSC interface](https://github.com/jrmedd/SonicPixels/blob/master/docs/oscDemo.gif?raw=true)
