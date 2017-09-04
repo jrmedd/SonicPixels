@@ -15,6 +15,7 @@ for (var row = 0; row < numVoices; row ++) {
 $('#sequencer').css('width', seqWidth);
 $('#sequencer').css('height', seqHeight);
 
+/*
 var timingSequencer = new Nexus.Sequencer("#timing-grid", {
   'size': [seqWidth, seqHeight/10],
   'rows':1,
@@ -26,7 +27,7 @@ var currentStep = 0;
 timingSequencer.on('step', function(s) {
   currentStep = (currentStep+1)%numSteps;
 });
-
+*/
 for (var i = 0; i < 5; i ++) {
   $('<div id="grid-'+i+'"></div>"').appendTo("#sequencing-grids");
 }
@@ -68,6 +69,8 @@ var playbackToggle = new Nexus.TextButton('#toggle-playback',{
 playbackToggle.alternateText = 'Stop';
 
 playbackToggle.on('change', function(play) {
+  socket.emit('transport_message', {'data':{'parameter':'playing','state':play}});
+  /*
   if (play) {
     for (var i = 0; i < matrices.length; i ++) {
       matrices[i].start();
@@ -80,4 +83,5 @@ playbackToggle.on('change', function(play) {
     }
     timingSequencer.stop();
   }
+  */
 });
