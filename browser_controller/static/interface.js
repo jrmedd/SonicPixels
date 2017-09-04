@@ -85,3 +85,20 @@ playbackToggle.on('change', function(play) {
   }
   */
 });
+
+var setBPM = new Nexus.Slider('#set-bpm', {
+    'size': [120,20],
+    'mode': 'absolute',  // 'relative' or 'absolute'
+    'min': 60,
+    'max': 200,
+    'step': 0,
+    'value': 120
+});
+
+$("#current-bpm").html(setBPM.value);
+
+setBPM.on('change', function(bpm) {
+  var currentBPM = parseInt(bpm);
+  $("#current-bpm").html(parseInt(bpm));
+  socket.emit('transport_message', {'data':{'parameter':'bpm','state':currentBPM}});
+})
