@@ -3,7 +3,8 @@ body {
 }
 
 td {
-  border: 1px solid black;
+  border: 1px solid #5d5d5d;
+  border-radius: 15px;
 }
 #sequencing-grids {
   display: none;

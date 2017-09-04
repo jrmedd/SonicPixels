@@ -1,5 +1,7 @@
-var seqWidth = 500;
-var seqHeight= 500;
+//var seqWidth = 500;
+//var seqHeight= 500;
+var seqWidth = $(window).width()*0.65;
+var seqHeight= $(window).width()*0.65;
 var colorGroups = ['white','blue','red','yellow', 'green'];
 var numVoices = 5;
 var numSteps = 5;
@@ -14,6 +16,7 @@ for (var row = 0; row < numVoices; row ++) {
 
 $('#sequencer').css('width', seqWidth);
 $('#sequencer').css('height', seqHeight);
+$('#sequencer').css('margin', '0 auto');
 
 /*
 var timingSequencer = new Nexus.Sequencer("#timing-grid", {
@@ -46,7 +49,7 @@ for (var i = 0; i < 5; i++) {
   });
 };
 
-$('#sequencer td').on('click', function(){
+$('#sequencer td').on('click touch', function(){
   var cellValues = $(this).attr('id').split('-').map(Number);
   var matrixIndex = cellValues[2];
   $(this).removeClass(colorGroups[matrixIndex]);
