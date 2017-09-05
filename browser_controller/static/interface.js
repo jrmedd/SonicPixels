@@ -1,8 +1,12 @@
-//var seqWidth = 500;
-//var seqHeight= 500;
-var seqWidth = $(window).width()*0.65;
-var seqHeight= $(window).width()*0.65;
-var colorGroups = ['white','blue','red','yellow', 'green'];
+if ($(window).width() > $(window).height()) {
+  var seqWidth = $(window).height()*0.85;
+  var seqHeight= $(window).height()*0.85;
+}
+else {
+  var seqWidth = $(window).width()*0.85;
+  var seqHeight= $(window).width()*0.85;
+}
+var colorGroups = ['white','#498AF4','#DD5044','#FECE44', '#17A460'];
 var numVoices = 5;
 var numSteps = 5;
 
@@ -94,14 +98,14 @@ var setBPM = new Nexus.Slider('#set-bpm', {
     'mode': 'absolute',  // 'relative' or 'absolute'
     'min': 60,
     'max': 200,
-    'step': 0,
+    'step': 1,
     'value': 120
 });
 
-$("#current-bpm").html(setBPM.value);
+
+var bpmDisplay = new Nexus.Number('#current-bpm');
+bpmDisplay.link(setBPM);
 
 setBPM.on('change', function(bpm) {
-  var currentBPM = parseInt(bpm);
-  $("#current-bpm").html(parseInt(bpm));
-  socket.emit('transport_message', {'data':{'parameter':'bpm','state':currentBPM}});
+  socket.emit('transport_message', {'data':{'parameter':'bpm','state':bpm}});
 })

@@ -9,10 +9,17 @@
 <div id="sequencing-grids"></div>
 <table id="sequencer"></table>
 <div id="timing-grid"></div>
-<hr>
-<div id="toggle-playback"></div>
-<label>BPM:</label><div id="set-bpm"></div>
-<div id="current-bpm"></div>
+<div id="transport">
+  <div class="interface-element">
+    <div id="toggle-playback"></div>
+  </div>
+  <div class="interface-element">
+    <div id="set-bpm"></div>
+  </div>
+  <div class="interface-element">
+    <div id="current-bpm"></div>
+  </div>
+</div>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='NexusUI.js') }}"></script>

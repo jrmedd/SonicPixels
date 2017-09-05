@@ -28,4 +28,4 @@ Like pixels on a screen, this bespoke audio delivery system would allow us to â€
 
 ...and I'm creating a better custom interface for doing OSC:
 
-![HTML OSC interface](https://github.com/jrmedd/SonicPixels/blob/master/docs/oscDemo.gif?raw=true)
+![HTML OSC interface](https://github.com/jrmedd/SonicPixels/blob/master/docs/SP_iPad.gif?raw=true)
