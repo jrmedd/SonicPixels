@@ -27,19 +27,25 @@ def handle_grid_message(grid_message):
     state = int(grid_message.get('data').get('state'))
     grid_number = grid_message.get('grid')
     oscmsg = OSCMessage()
-    oscmsg.setAddress("/%s" % (grid_number))
-    oscmsg.append([column, row, state])
-    client.send(oscmsg)
+    message_address ="/%s" % (grid_number)
+    send_osc_message(message_address, [column, row, state])
 
-@socketio.on('transport_message')
-def handle_transport_message(transport_message):
-    parameter = transport_message.get('data').get('parameter')
-    state = int(transport_message.get('data').get('state'))
+@socketio.on('control_message')
+def handle_control_message(control_message):
+    parameter = control_message.get('data').get('parameter')
+    state = control_message.get('data').get('state')
     oscmsg = OSCMessage()
-    oscmsg.setAddress("/%s" % (parameter))
-    oscmsg.append(state)
-    client.send(oscmsg)
+    message_address = "/%s" % (parameter)
+    send_osc_message(message_address, state)
 
+def send_osc_message(address, message):
+    oscmsg = OSCMessage()
+    oscmsg.setAddress(address)
+    oscmsg.append(message)
+    try:
+        client.send(oscmsg)
+    except:
+        print "Error sending messsage, reciever may not be available"
 
 if __name__ == '__main__':
     socketio.run(app, host=my_ip, debug=True)

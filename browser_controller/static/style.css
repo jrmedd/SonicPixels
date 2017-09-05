@@ -7,13 +7,13 @@ td {
   border-radius: 15px;
 }
 
-#transport {
+#transport, #sounds, #levels {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-#transport .interface-element {
+.interface-element {
   text-align: center!important;
   padding: .25em;
 }
