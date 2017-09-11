@@ -11,7 +11,7 @@ socketio = SocketIO(app)
 
 
 #my_ip = "127.0.0.1"
-my_ip = "10.99.100.108"
+my_ip = "10.99.100.104"
 
 client = OSCClient()
 client.connect((my_ip, 8000))
@@ -26,17 +26,13 @@ def handle_grid_message(grid_message):
     row = grid_message.get('data').get('row')
     state = int(grid_message.get('data').get('state'))
     grid_number = grid_message.get('grid')
-    oscmsg = OSCMessage()
-    message_address ="/%s" % (grid_number)
-    send_osc_message(message_address, [column, row, state])
+    send_osc_message("/%s"%(grid_number), [column, row, state])
 
 @socketio.on('control_message')
 def handle_control_message(control_message):
     parameter = control_message.get('data').get('parameter')
     state = control_message.get('data').get('state')
-    oscmsg = OSCMessage()
-    message_address = "/%s" % (parameter)
-    send_osc_message(message_address, state)
+    send_osc_message("/%s"%(parameter), state)
 
 def send_osc_message(address, message):
     oscmsg = OSCMessage()

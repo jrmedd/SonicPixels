@@ -27,6 +27,10 @@ var soundBankSelector = new Nexus.Select('#sound-bank', {
   'options': soundBanks
 });
 
+soundBankSelector.on('change', function(b){
+  socket.emit('control_message',{'data':{'parameter':'soundBank','state':b.index}})
+});
+
 //individual sound volume sliders
 
 var levelSliders = new Array();
