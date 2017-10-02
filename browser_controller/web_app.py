@@ -1,6 +1,5 @@
 from flask import Flask, flash, url_for, render_template, request, redirect, make_response, Response, jsonify
 from flask_socketio import SocketIO
-from flask_cors import CORS, cross_origin
 from OSC import OSCClient, OSCMessage
 
 app = Flask(__name__)
@@ -11,7 +10,7 @@ socketio = SocketIO(app)
 
 
 #my_ip = "127.0.0.1"
-my_ip = "10.99.100.104"
+my_ip = "10.99.100.105"
 
 client = OSCClient()
 client.connect((my_ip, 8000))
@@ -32,7 +31,11 @@ def handle_grid_message(grid_message):
 def handle_control_message(control_message):
     parameter = control_message.get('data').get('parameter')
     state = control_message.get('data').get('state')
-    send_osc_message("/%s"%(parameter), state)
+    send_osc_message("/%s"%(parameter), [state])
+
+@app.route('/display')
+def display_patterns():
+    return render_template('patterns.html')
 
 def send_osc_message(address, message):
     oscmsg = OSCMessage()

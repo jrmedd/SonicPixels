@@ -1,12 +1,12 @@
 //set variables for width and height of overall sequencer
 
 if ($(window).width() > $(window).height()) {
-  var seqWidth = $(window).height()*0.85;
-  var seqHeight= $(window).height()*0.85;
+  var seqWidth = $(window).height()*0.75;
+  var seqHeight= $(window).height()*0.75;
 }
 else {
-  var seqWidth = $(window).width()*0.85;
-  var seqHeight= $(window).width()*0.85;
+  var seqWidth = $(window).width()*0.75;
+  var seqHeight= $(window).width()*0.75;
 }
 
 //names of sound banks
@@ -31,27 +31,49 @@ soundBankSelector.on('change', function(b){
   socket.emit('control_message',{'data':{'parameter':'soundBank','state':b.index}})
 });
 
-//individual sound volume sliders
+//create volume slider
 
-var levelSliders = new Array();
+var volumeSlider = new Nexus.Slider("#volume-slider",{
+  'size':[seqWidth*0.8, '40'],
+  'min': 0,
+  'max': 1,
+  'step': 0,
+  'value': 1,
+  'mode':'absolute'
+});
 
-for (var i = 1; i < soundColours.length; i ++) {
-  $('<div class="interface-element"><div id="level-control-'+i+'"></div></div>').appendTo($("#levels"));//append empty elements to the levels element
-  levelSliders.push(new Nexus.Slider("#level-control-"+i, {
-    'size':[seqWidth/(soundColours.length-1), '40'],
-    'min': 0,
-    'max': 1,
-    'step': 0,
-    'value': 1,
-    'mode':'absolute'
+var volumeDisplay = new Nexus.Number('#current-volume', {
+  'size': [seqWidth*0.125, 40]
+});
+
+volumeDisplay.link(volumeSlider);
+
+volumeSlider.on('change', function(v){
+  socket.emit('control_message',{'data':{'parameter':'current-volume', 'state':v}});
+  for (var i = 0; i < soundColours.length; i ++) {
+    $("#colour-select-"+i).css('opacity',v);
+  }
+});
+
+// create colour pickers
+
+var colourSelect = new Array();
+var selectedColour = 0;
+
+for (var i = 0; i < soundColours.length; i ++) {
+  $('<div class="interface-element"><div id="colour-select-'+i+'"></div></div>').appendTo($("#colours"));//append empty elements to the levels element
+  colourSelect.push(new Nexus.Button("#colour-select-"+i, {
+    'size':['40', '40'],
+    'mode':'impulse'
   }));
-  levelSliders[i-1].colorize("accent", "#"+soundColours[i]);//colour the slider starting from the first non-white sound colour
-  (levelSliders[i-1]).on('change', function(s) { //when it changes adjust the opacity of all cells of that colour
-    socket.emit('control_message',{'data':{'parameter':this.parent.id,'state':s}})
-    var colourOfThisSlider = this.colors['accent'].split(["#"])[1]
-    $('.'+colourOfThisSlider).css('opacity', s);
-  })
-}
+  colourSelect[i].colorize("fill", "#"+soundColours[i]);
+  colourSelect[i].colorize("accent", "#FFFFFF");
+  colourSelect[i].on('change', function(s) {
+    socket.emit('control_message',{'data':{'parameter':this.parent.id,'state':(s ? 1:0)}});
+    selectedColour = this.parent.id.split("-")[2];
+    volumeSlider.colorize("accent", "#"+soundColours[selectedColour]);
+  });
+};
 
 //create the indivudal parent elements for the sequencers for each sound
 
@@ -97,11 +119,12 @@ $('#sequencer td').on('click touch', function(){
   var matrixIndex = cellValues[2];
   $(this).removeClass(soundColours[matrixIndex]);
   matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 0);
-  matrixIndex = (matrixIndex + 1) % soundColours.length;
+  //matrixIndex = (matrixIndex + 1) % soundColours.length;
+  matrixIndex = selectedColour;
   matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 1);
   $(this).addClass(soundColours[matrixIndex]);
   $(this).css('background',"#"+soundColours[matrixIndex]);
-  $(this).css('opacity', (matrixIndex > 0)?levelSliders[matrixIndex-1].value:1);
+  $(this).css('opacity', (matrixIndex > 0)?volumeSlider.value:1);
   cellValues[2] = matrixIndex;
   $(this).attr('id',cellValues.join('-'));
 });

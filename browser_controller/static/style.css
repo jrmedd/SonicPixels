@@ -7,7 +7,7 @@ td {
   border-radius: 15px;
 }
 
-#transport, #sounds, #levels {
+#transport, #sounds, #volume, #colours {
   display: flex;
   align-items: center;
   justify-content: center;

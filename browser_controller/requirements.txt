@@ -1,0 +1,3 @@
+Flask-SocketIO==2.8.6
+Flask==0.12.1
+pyOSC==0.3.5b5294
