@@ -12,7 +12,7 @@ else {
 //names of sound banks
 var soundBanks = ['haunted house','dawn chorus/nocturnal chorus','chronic coughs','sounds of space','bleeps and blips','ambient drones','static & noise','frequency bands']
 //number of different sounds, and their representative colours (icluding white!)
-var soundColours = ['FFFFFF','498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D'];
+var soundColours = ['FFFFFF','498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'];
 
 //number of voices per step
 var numVoices = 5;
@@ -28,7 +28,7 @@ var soundBankSelector = new Nexus.Select('#sound-bank', {
 });
 
 soundBankSelector.on('change', function(b){
-  socket.emit('control_message',{'data':{'parameter':'soundBank','state':b.index}})
+  socket.emit('control_message',{'data':{'parameter':'sound-bank','state':b.index}})
 });
 
 //create volume slider
@@ -47,6 +47,7 @@ var volumeDisplay = new Nexus.Number('#current-volume', {
 });
 
 volumeDisplay.link(volumeSlider);
+volumeSlider.colorize("accent", "#"+soundColours[0]);
 
 volumeSlider.on('change', function(v){
   socket.emit('control_message',{'data':{'parameter':'current-volume', 'state':v}});
