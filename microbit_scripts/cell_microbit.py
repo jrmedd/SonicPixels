@@ -22,9 +22,9 @@ def parse_grid(hex_received):
 def process_message(message):
     message_type = message_types.get(message[0:2])
     if message_type == "playback":
-        message_pieces = (int(message[2:4]), message[4:22])
+        message_pieces = (int(message[2:4]), message[4:22], int(message[22:24]))
         rows = [to_bits(row) for row in hex_rows(message_pieces[1])]
-        return {"message_type":message_type,"column":message_pieces[0],"rows":rows}
+        return {"message_type":message_type,"column":message_pieces[0],"rows":rows, "sound_bank":message_pieces[2]}
     elif message_type == "volume_change":
         return {"message_type":message_type, "row":int(message[2]),"column":int(message[3]), "volume":int(message[5:7],16)}
 
