@@ -108,27 +108,90 @@ for (var i = 0; i < soundColours.length; i++) {
     if (currentGrid > "0")
     socket.emit('grid_message', {'grid':currentGrid, 'data':c})
   });
-  matrices[i].on('step', function(s) {
-    //console.log(this.parent.id + " column " + currentStep + ": "+ s.reverse().join(', '));
-  });
 };
 
 //bind touch events for the interaction with the main sequencer
+var mouseIsDown = false;
+$('#sequencer td').on('mousedown', function(e) {
+  e.preventDefault();
+  paintCell($(this));
+  mouseIsDown = true;
+}).on('mousemove',function(e){
+  e.preventDefault();
+  if (mouseIsDown) {
+    paintCell($(this));
+  }
+});
+$(document).on('mouseup',function() {
+  mouseIsDown = false;
+});
 
-$('#sequencer td').on('click touch', function(){
-  var cellValues = $(this).attr('id').split('-').map(Number);
+//equivalent dragging detection for touch, credit: http://output.jsbin.com/favobu
+// first - store the coords of all the cells for the position check
+var sequencerBounds = $('#sequencer td').map(function(){
+  var e = $(this),
+  o = e.offset(),
+  w = e.width(),
+  h = e.height();
+  return {
+    top: o.top,
+    left: o.left,
+    right: o.left + w,
+    bottom: o.top + h,
+    e: e
+  }
+}).get();
+
+var currentTarget = $(),
+    activeTarget = $();
+
+var touchF = function(e) {
+   var touch = e.originalEvent.touches[0];
+   currentTarget = getCurrent(
+     {
+       clientX: touch.clientX,
+       clientY: touch.clientY
+     }
+   );
+    // if the touch is in one of the cells and it's disfferent than the last touch cell
+    if (currentTarget && currentTarget != activeTarget) {
+      activeTarget = currentTarget;
+      paintCell(activeTarget);
+    }
+ }
+
+$('#sequencer td').bind({
+  touchstart: touchF,
+  touchmove: touchF
+});
+
+function getCurrent(touch) {
+  // check if the touch coords are in the position of one of the cells and which one
+  var a = sequencerBounds.filter(function(obj) {
+    var b = (
+      touch.clientX > obj.left &&
+      touch.clientX < obj.right &&
+      touch.clientY < obj.bottom &&
+      touch.clientY > obj.top
+    );
+    return b;
+  });
+  return a.length > 0 ? a[0].e : null;
+}
+
+function paintCell(cell) {
+  var cellValues = cell.attr('id').split('-').map(Number);
   var matrixIndex = cellValues[2];
-  $(this).removeClass(soundColours[matrixIndex]);
+  cell.removeClass(soundColours[matrixIndex]);
   matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 0);
-  //matrixIndex = (matrixIndex + 1) % soundColours.length;
   matrixIndex = selectedColour;
   matrices[matrixIndex].matrix.set.cell(cellValues[0],cellValues[1], 1);
-  $(this).addClass(soundColours[matrixIndex]);
-  $(this).css('background',"#"+soundColours[matrixIndex]);
-  $(this).css('opacity', (matrixIndex > 0)?volumeSlider.value:1);
+  cell.addClass(soundColours[matrixIndex]);
+  cell.css('background',"#"+soundColours[matrixIndex]);
+  cell.css('opacity', (matrixIndex > 0)?volumeSlider.value:1);
   cellValues[2] = matrixIndex;
-  $(this).attr('id',cellValues.join('-'));
-});
+  cell.attr('id',cellValues.join('-'));
+}
 
 //create the playback object
 
