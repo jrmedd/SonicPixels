@@ -81,7 +81,7 @@ for (var i = 0; i < soundColours.length; i ++) {
 for (var row = 0; row < numVoices; row ++) {
   var tr = $('<tr>');
   for (var col = 0; col < numSteps; col ++) {
-    $('<td id="'+col+'-'+row+'-0" class="sequencer-cell"></td>').appendTo(tr);
+    $('<td id="'+col+'-'+row+'-0" class="sequencer-cell FFFFFF"></td>').appendTo(tr);
   }
   tr.appendTo('#sequencer');
 };
@@ -146,6 +146,7 @@ var currentTarget = $(),
     activeTarget = $();
 
 var touchF = function(e) {
+  e.preventDefault();
    var touch = e.originalEvent.touches[0];
    currentTarget = getCurrent(
      {

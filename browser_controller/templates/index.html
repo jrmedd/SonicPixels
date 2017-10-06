@@ -10,13 +10,13 @@
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5d5d5d">
   <meta name="theme-color" content="#ffffff">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?1">
 </head>
 <body>
 <div id="sequencing-grids"></div>
 <table id="sequencer"></table>
 <div id="timing-grid"></div>
-<div id="transport">
+<div id="transport" class="interface-row">
   <div class="interface-element">
     <div id="toggle-playback"></div>
   </div>
@@ -27,12 +27,12 @@
     <div id="current-bpm"></div>
   </div>
 </div>
-<div id="sounds">
+<div id="sounds" class="interface-row">
   <div class="interface-element">
     <div id="sound-bank"></div>
   </div>
 </div>
-<div id="volume">
+<div id="volume" class="interface-row">
   <div class="interface-element">
     <div id="volume-slider"></div>
   </div>
@@ -40,7 +40,7 @@
     <div id="current-volume"></div>
   </div>
 </div>
-<div id="colours">
+<div id="colours" class="interface-row">
 </div>
 
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
@@ -49,7 +49,7 @@
 <script type="text/javascript">
 var socket = io.connect('http://' + '{{ ip }}' + ':' + location.port);
 </script>
-<script type="text/javascript" src="{{ url_for('static', filename='interface.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='interface.js') }}?5"></script>
 
 </body>
 </html>
