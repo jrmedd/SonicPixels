@@ -37,4 +37,4 @@ def stopTrack():
    
 #volume should be int between 0 (silent) and 48 (loud)
 def setVolume(Volume):
-    command(0x6,0,int(Volume))
+    command(0x06,0,int(Volume))
