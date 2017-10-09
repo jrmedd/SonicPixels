@@ -1,12 +1,13 @@
 //set variables for width and height of overall sequencer
 
+
 if ($(window).width() > $(window).height()) {
-  var seqWidth = $(window).height()*0.75;
-  var seqHeight= $(window).height()*0.75;
+  var seqWidth = $(window).height()*0.7;
+  var seqHeight= $(window).height()*0.7;
 }
 else {
-  var seqWidth = $(window).width()*0.75;
-  var seqHeight= $(window).width()*0.75;
+  var seqWidth = $(window).width()*0.7;
+  var seqHeight= $(window).width()*0.7;
 }
 
 //names of sound banks

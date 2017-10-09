@@ -7,6 +7,41 @@ message_types = {"00":"playback", "01": "volume_change"}
 
 radio.on()
 
+#recommended to write pin16 low (this is the busy pin indicator)
+microbit.pin16.read_digital()
+
+Start_Byte = 0x7E
+Version_Byte = 0xFF
+CMD_Length = 0x06
+Acknowledge = 0x00
+End_Byte = 0xEF
+HighByte = 0x00
+LowByte = 0x00
+
+def split(num):
+    return num >> 8, num & 0xFF
+
+def command(CMD, Par1, Par2):
+    Checksum = -(Version_Byte + CMD_Length + CMD + Acknowledge + Par1 + Par2)
+    HighByte, LowByte = split(Checksum)
+    CommandLine = bytes([b & 0xFF for b in [
+        Start_Byte, Version_Byte, CMD_Length, CMD, Acknowledge,
+        Par1, Par2, HighByte, LowByte, End_Byte
+    ]])
+    microbit.uart.write(CommandLine)
+
+#folders named "##", e.g. "00" to "99" with tracks named "###.mp3", e.g. "000.mp3" to "255.mp3"
+def playTrack(Folder,Track):
+    command(0x0F,int(Folder),int(Track))
+
+#stops any track playing
+def stopTrack():
+    command(0x16,0,0)
+
+#volume should be int between 0 and 30
+def setVolume(Volume):
+    command(0x6,0,int(Volume))
+
 def to_bits(hex_input):
     converted = int(hex_input, 16)
     bits = [int(i) for i in '{0:05b}'.format(converted)]
@@ -30,7 +65,7 @@ def process_message(message):
 
 while True:
     if microbit.button_a.is_pressed():
-        microbit.display.set_pixel(this_device.get('row'), this_device.get('column'), 9)
+        microbit.display.set_pixel(this_device.get('column'), this_device.get('row'), 9)
     else:
         microbit.display.show(" ")
     incoming_message = radio.receive()
@@ -41,6 +76,8 @@ while True:
                 if processed_message.get('message_type') == "playback":
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
-                            microbit.display.show("P "+str(row))
+                            #microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
+                            playTrack(processed_message.get('sound_bank'), row)
                 elif processed_message.get('message_type') == "volume_change":
-                    microbit.display.show("V "+ str(processed_message.get('volume')))
+                    #microbit.display.show("V "+ str(processed_message.get('volume')))
+                    setVolume(int((processed_message.get('volume')/255.)*30))
