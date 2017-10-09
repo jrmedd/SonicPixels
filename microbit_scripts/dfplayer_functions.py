@@ -22,12 +22,19 @@ def command(CMD, Par1, Par2):
 
 #folders named "##", e.g. "00" to "99" with tracks named "###.mp3", e.g. "000.mp3" to "255.mp3"
 def playTrack(Folder,Track):
-    command(0x0F,int(Folder),int(Track))  
+    stopTrack()
+    command(0x0F,int(Folder),int(Track))
+   
+#folders named "##", e.g. "00" to "99" with tracks named "###.mp3", e.g. "000.mp3" to "255.mp3"
+def loopTrack(Folder,Track):
+    stopTrack()
+    command(0x0F,int(Folder),int(Track))
+    command(0x19,0x00,0x00)  #loop the current track
 
-#stops any track playing    
+#stops any track playing   
 def stopTrack():
     command(0x16,0,0)
-    
-#volume should be int between 0 and 30
+   
+#volume should be int between 0 (silent) and 48 (loud)
 def setVolume(Volume):
     command(0x6,0,int(Volume))
