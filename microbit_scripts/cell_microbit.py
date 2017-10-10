@@ -33,16 +33,17 @@ def command(CMD, Par1, Par2):
     microbit.uart.write(CommandLine)
 
 #folders named "##", e.g. "00" to "99" with tracks named "###.mp3", e.g. "000.mp3" to "255.mp3"
-def playTrack(Folder,Track):
-    command(0x0F,int(Folder),int(Track))
+def play_track(folder, track):
+    stop_track()
+    command(0x0F,int(folder),int(track))
 
 #stops any track playing
-def stopTrack():
+def stop_track():
     command(0x16,0,0)
 
-#volume should be int between 0 and 30
-def setVolume(Volume):
-    command(0x6,0,int(Volume))
+#volume should be int between 0 (silent) and 48 (loud)
+def set_volume(volume):
+    command(0x06,0,int(volume))
 
 def to_bits(hex_input):
     converted = int(hex_input, 16)
@@ -79,7 +80,7 @@ while True:
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
                             #microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
-                            playTrack(processed_message.get('sound_bank'), row)
+                            play_track(processed_message.get('sound_bank'), row)
                 elif processed_message.get('message_type') == "volume_change":
                     #microbit.display.show("V "+ str(processed_message.get('volume')))
-                    setVolume(int((processed_message.get('volume')/255.)*30))
+                    set_volume(int((processed_message.get('volume')/255.)*48))
