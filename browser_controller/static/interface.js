@@ -1,5 +1,8 @@
 //set variables for width and height of overall sequencer
 
+$('body').on('touchmove', function(e){
+  e.preventDefault();
+})
 
 if ($(window).width() > $(window).height()) {
   var seqWidth = $(window).height()*0.7;
@@ -155,11 +158,11 @@ var touchF = function(e) {
        clientY: touch.clientY
      }
    );
-    // if the touch is in one of the cells and it's disfferent than the last touch cell
+    // if the touch is in one of the cells and it's different than the last touch cell
     if (currentTarget && currentTarget != activeTarget) {
       activeTarget = currentTarget;
-      paintCell(activeTarget);
     }
+    paintCell(activeTarget);
  }
 
 $('#sequencer td').bind({
