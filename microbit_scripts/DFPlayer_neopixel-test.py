@@ -13,7 +13,6 @@ End_Byte = 0xEF
 HighByte = 0x00
 LowByte = 0x00
 
-
 def split(num):
     return num >> 8, num & 0xFF
 

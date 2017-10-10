@@ -1,9 +1,10 @@
 import microbit
 
+
+microbit.uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=microbit.pin14, rx=microbit.pin15)
+
 #recommended to write pin16 low (this is the busy pin indicator)
 microbit.pin16.read_digital()
-
-
 
 Start_Byte = 0x7E
 Version_Byte = 0xFF
