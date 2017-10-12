@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 
 #my_ip = "127.0.0.1"
-my_ip = "10.99.100.113"
+my_ip = "10.99.204.13"
 
 client = OSCClient()
 client.connect((my_ip, 8000))
@@ -32,10 +32,6 @@ def handle_control_message(control_message):
     parameter = control_message.get('data').get('parameter')
     state = control_message.get('data').get('state')
     send_osc_message("/%s"%(parameter), [state])
-
-@app.route('/display')
-def display_patterns():
-    return render_template('patterns.html')
 
 def send_osc_message(address, message):
     oscmsg = OSCMessage()

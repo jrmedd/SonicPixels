@@ -79,8 +79,8 @@ while True:
                 if processed_message.get('message_type') == "playback":
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
-                            #microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
+                            microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
                             play_track(processed_message.get('sound_bank'), row)
                 elif processed_message.get('message_type') == "volume_change":
-                    #microbit.display.show("V "+ str(processed_message.get('volume')))
+                    microbit.display.show("V "+ str(processed_message.get('volume')))
                     set_volume(int((processed_message.get('volume')/255.)*48))
