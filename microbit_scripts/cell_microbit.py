@@ -1,14 +1,22 @@
 import microbit
 import radio
+import neopixel
+
 
 this_device = {'row':0 , 'column':0} #row and column
 
 message_types = {"00":"playback", "01": "volume_change"}
 
+current_volume = 48
+
+sound_colours = ['498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'];
+
 radio.on()
 
 #recommended to write pin16 low (this is the busy pin indicator)
 microbit.pin16.read_digital()
+
+np = neopixel.NeoPixel(microbit.pin13, 2)
 
 microbit.uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=microbit.pin14, rx=microbit.pin15)
 
@@ -44,6 +52,12 @@ def stop_track():
 #volume should be int between 0 (silent) and 48 (loud)
 def set_volume(volume):
     command(0x06,0,int(volume))
+
+def set_neopixels(hex_colour, brightness):
+    rgb = tuple(int(int(hex_colour[i:i+2], 16)*brightness) for i in range(0, len(hex_colour), 2))
+    for pixel in range(0, len(np)):
+        np[pixel] = rgb
+        np.show()
 
 def to_bits(hex_input):
     converted = int(hex_input, 16)
@@ -81,6 +95,8 @@ while True:
                         if processed_message.get('rows')[row][this_device.get('row')]:
                             microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
                             play_track(processed_message.get('sound_bank'), row)
+                            set_neopixels(sound_colours[row], current_volume/48.)
                 elif processed_message.get('message_type') == "volume_change":
                     microbit.display.show("V "+ str(processed_message.get('volume')))
-                    set_volume(int((processed_message.get('volume')/255.)*48))
+                    current_volume = int((processed_message.get('volume')/255.)*48)
+                    set_volume(current_volume)
