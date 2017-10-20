@@ -96,7 +96,7 @@ while True:
                             microbit.display.show("P "+str(processed_message.get('sound_bank'))+str(row))
                             play_track(processed_message.get('sound_bank'), row)
                             set_neopixels(sound_colours[row], current_volume/48.)
-                elif processed_message.get('message_type') == "volume_change" and if processed_message.get('row') == this_device.get('row'):
+                elif processed_message.get('message_type') == "volume_change" and processed_message.get('row') == this_device.get('row'):
                     microbit.display.show("V "+ str(processed_message.get('volume')))
                     current_volume = int((processed_message.get('volume')/255.)*48)
                     set_volume(current_volume)
