@@ -67,10 +67,6 @@ def to_bits(hex_input):
 def hex_rows(hexstring):
     return [hexstring[i:i+2] for i in range(0,len(hexstring), 2)]
 
-def parse_grid(hex_received):
-    row_values = [to_bits(hex_row) for hex_row in hex_rows(hex_received)]
-    return row_values
-
 def process_message(message):
     message_type = message_types.get(message[0:2])
     if message_type == "playback":
