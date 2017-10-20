@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 
 #my_ip = "127.0.0.1"
-my_ip = "10.99.204.13"
+my_ip = "10.99.100.120"
 
 client = OSCClient()
 client.connect((my_ip, 8000))

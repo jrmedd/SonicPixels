@@ -1,7 +1,5 @@
-import microbit
-import radio
-import neopixel
-
+from microbit import pin13, pin14, pin15, pin16, display, button_a, uart
+import radio, neopixel
 
 this_device = {'row':0 , 'col':0} #row and column
 
@@ -14,11 +12,11 @@ current_volume = 48
 radio.on()
 
 #recommended to write pin16 low (this is the busy pin indicator)
-microbit.pin16.read_digital()
+pin16.read_digital()
 
-np = neopixel.NeoPixel(microbit.pin13, 2)
+np = neopixel.NeoPixel(pin13, 2)
 
-microbit.uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=microbit.pin14, rx=microbit.pin15)
+uart.init(baudrate=9600, bits=8, parity=None, stop=1, tx=pin14, rx=pin15)
 
 Start_Byte = 0x7E
 Version_Byte = 0xFF
@@ -38,7 +36,7 @@ def command(CMD, Par1, Par2):
         Start_Byte, Version_Byte, CMD_Length, CMD, Acknowledge,
         Par1, Par2, HighByte, LowByte, End_Byte
     ]])
-    microbit.uart.write(CommandLine)
+    uart.write(CommandLine)
 
 #folders named "##", e.g. "00" to "99" with tracks named "###.mp3", e.g. "000.mp3" to "255.mp3"
 def play_track(folder, track):
@@ -77,10 +75,10 @@ def process_message(message):
         return {'msg_type':message_type, "row":int(message[2]),'col':int(message[3]), 'volume':int(message[5:7],16)}
 
 while True:
-    if microbit.button_a.is_pressed():
-        microbit.display.set_pixel(this_device.get('col'), this_device.get('row'), 9)
+    if button_a.is_pressed():
+        display.set_pixel(this_device.get('col'), this_device.get('row'), 9)
     else:
-        microbit.display.show(" ")
+        display.show(" ")
     incoming_message = radio.receive()
     if incoming_message:
         processed_message = process_message(incoming_message)
@@ -89,10 +87,10 @@ while True:
                 if processed_message.get('msg_type') == 'play_c':
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
-                            microbit.display.show("P "+str(processed_message.get('bank'))+str(row))
+                            display.show("P "+str(processed_message.get('bank'))+str(row))
                             play_track(processed_message.get('bank'), row)
                             #set_neopixels(sound_colours[row], current_volume/48.)
                 elif processed_message.get('msg_type') == 'vol_c' and processed_message.get('row') == this_device.get('row'):
-                    microbit.display.show("V "+ str(processed_message.get('volume')))
+                    display.show("V "+ str(processed_message.get('volume')))
                     current_volume = int((processed_message.get('volume')/255.)*48)
                     set_volume(current_volume)

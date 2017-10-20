@@ -219,8 +219,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "" ],
-					"patching_rect" : [ 465.0, 705.0, 176.0, 20.0 ],
-					"text" : "serial usbmodem14232 115200"
+					"patching_rect" : [ 465.0, 705.0, 171.0, 20.0 ],
+					"text" : "serial usbmodem1412 115200"
 				}
 
 			}
