@@ -1,4 +1,4 @@
-from microbit import pin13, pin14, pin15, pin16, display, button_a, uart
+from microbit import pin13, pin14, pin15, pin16, display, uart
 import radio, neopixel
 
 this_device = {'row':0 , 'col':0} #row and column
@@ -7,7 +7,7 @@ message_types = {"00":'play_c', "01": 'vol_c'}
 
 current_volume = 48
 
-#sound_colours = ['498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'] # commenting this out actually fixes the code!
+sound_colours = ['498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'] # commenting this out actually fixes the code!
 
 radio.on()
 
@@ -74,11 +74,10 @@ def process_message(message):
     elif message_type == 'vol_c':
         return {'msg_type':message_type, "row":int(message[2]),'col':int(message[3]), 'volume':int(message[5:7],16)}
 
+set_neopixels("000000", 1.)
+
 while True:
-    if button_a.is_pressed():
-        display.set_pixel(this_device.get('col'), this_device.get('row'), 9)
-    else:
-        display.show(" ")
+    display.set_pixel(this_device.get('col'), this_device.get('row'), 9)
     incoming_message = radio.receive()
     if incoming_message:
         processed_message = process_message(incoming_message)
@@ -87,10 +86,11 @@ while True:
                 if processed_message.get('msg_type') == 'play_c':
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
-                            display.show("P "+str(processed_message.get('bank'))+str(row))
+                            #display.show("P "+str(processed_message.get('bank'))+str(row))
                             play_track(processed_message.get('bank'), row)
-                            #set_neopixels(sound_colours[row], current_volume/48.)
+                            #set_neopixels("ffffff", current_volume/48.)
+                            set_neopixels(sound_colours[row], current_volume/48.)
                 elif processed_message.get('msg_type') == 'vol_c' and processed_message.get('row') == this_device.get('row'):
-                    display.show("V "+ str(processed_message.get('volume')))
+                    #display.show("V "+ str(processed_message.get('volume')))
                     current_volume = int((processed_message.get('volume')/255.)*48)
                     set_volume(current_volume)
