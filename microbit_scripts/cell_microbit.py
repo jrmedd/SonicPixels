@@ -1,7 +1,7 @@
 from microbit import pin13, pin14, pin15, pin16, display, uart
 import radio, neopixel
 
-this_device = {'row':0 , 'col':0} #row and column
+this_device = {'row':4 , 'col':3} #row and column
 
 message_types = {"00":'play_c', "01": 'vol_c'}
 
@@ -86,11 +86,8 @@ while True:
                 if processed_message.get('msg_type') == 'play_c':
                     for row in range(len(processed_message.get('rows'))):
                         if processed_message.get('rows')[row][this_device.get('row')]:
-                            #display.show("P "+str(processed_message.get('bank'))+str(row))
                             play_track(processed_message.get('bank'), row)
-                            #set_neopixels("ffffff", current_volume/48.)
                             set_neopixels(sound_colours[row], current_volume/48.)
                 elif processed_message.get('msg_type') == 'vol_c' and processed_message.get('row') == this_device.get('row'):
-                    #display.show("V "+ str(processed_message.get('volume')))
                     current_volume = int((processed_message.get('volume')/255.)*48)
                     set_volume(current_volume)

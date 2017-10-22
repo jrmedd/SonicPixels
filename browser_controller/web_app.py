@@ -8,9 +8,8 @@ app.secret_key = "secret"
 
 socketio = SocketIO(app)
 
-
-my_ip = "127.0.0.1"
-#my_ip = "192.168.43.243"
+my_ip = "169.254.113.233"
+#my_ip = "127.0.0.1"
 
 client = OSCClient()
 client.connect((my_ip, 8000))
