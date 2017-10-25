@@ -14,7 +14,7 @@ else {
 }
 
 //names of sound banks
-var soundBanks = ['haunted house','dawn chorus/nocturnal chorus','chronic coughs','sounds of space','bleeps and blips','ambient drones','static & noise','frequency bands']
+var soundBanks = ['Dawn Chorus','Everyday Beeps & Blips','Haunted House','Noise Orchestra','What is life without water?']
 //number of different sounds, and their representative colours (icluding white!)
 var soundColours = ['FFFFFF','498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'];
 
@@ -212,7 +212,7 @@ playbackToggle.alternateText = 'Stop';
 playbackToggle.on('change', function(play) {
   socket.emit('control_message', {'data':{'parameter':'playing','state':(play ? 1:0)}});
 });
-
+/*
 var setBPM = new Nexus.Slider('#set-bpm', {
     'size': [seqWidth*0.25,15],
     'mode': 'absolute',
@@ -230,3 +230,4 @@ bpmDisplay.link(setBPM);
 setBPM.on('change', function(bpm) {
   socket.emit('control_message', {'data':{'parameter':'bpm','state':bpm}});
 });
+*/
