@@ -16,7 +16,7 @@ else {
 //names of sound banks
 var soundBanks = ['Dawn Chorus','Everyday Beeps & Blips','Haunted House','Noise Orchestra','What is life without water?']
 //number of different sounds, and their representative colours (icluding white!)
-var soundColours = ['FFFFFF','498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'];
+var soundColours = ['000000','498AF4','DD5044','FECE44', '17A460', '64D9EF', 'F92653', '61C82D','F4BF75', '825078'];
 
 //number of voices per step
 var numVoices = 5;
@@ -85,7 +85,7 @@ for (var i = 0; i < soundColours.length; i ++) {
 for (var row = 0; row < numVoices; row ++) {
   var tr = $('<tr>');
   for (var col = 0; col < numSteps; col ++) {
-    $('<td id="'+col+'-'+row+'-0" class="sequencer-cell FFFFFF"></td>').appendTo(tr);
+    $('<td id="'+col+'-'+row+'-0" class="sequencer-cell 000000"></td>').appendTo(tr);
   }
   tr.appendTo('#sequencer');
 };
