@@ -1,5 +1,8 @@
 ## About
 
+![Grand Exposition Setup](https://github.com/jrmedd/SonicPixels/blob/master/docs/setup_test.gif?raw=true)
+
+
 [Micro:bit](http://microbit.org/) and [Max](https://cycling74.com) frameworks for triggering multiple speakers in a grid arrangment. Massively WIP!
 
 Ultimately, this wants to be an easy way of taking OSC/MIDI messages from other software, using Max as a middleware to send serial messages to a [MicroPython](https://github.com/bbcmicrobit/micropython) program running on the micro:bit.

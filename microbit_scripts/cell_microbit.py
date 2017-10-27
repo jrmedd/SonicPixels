@@ -88,6 +88,9 @@ while True:
                         if processed_message.get('rows')[row][this_device.get('row')]:
                             play_track(processed_message.get('bank'), row)
                             set_neopixels(sound_colours[row], current_volume/48.)
+                        else:
+                            stop_track()
+                            set_neopixels("000000", current_volume/48.)
                 elif processed_message.get('msg_type') == 'vol_c' and processed_message.get('row') == this_device.get('row'):
                     current_volume = int((processed_message.get('volume')/255.)*48)
                     set_volume(current_volume)
