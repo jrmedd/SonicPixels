@@ -1,7 +1,7 @@
 from microbit import pin13, pin14, pin15, pin16, display, uart
 import radio, neopixel
 
-this_device = {'row':4 , 'col':3} #row and column
+this_device = {'col':0 , 'row':0} #row and column
 
 message_types = {"00":'play_c', "01": 'vol_c'}
 
@@ -77,7 +77,7 @@ def process_message(message):
 set_neopixels("000000", 1.)
 
 while True:
-    display.set_pixel(this_device.get('col'), this_device.get('row'), 9)
+    display.set_pixel(this_device.get('col'), this_device.get('row'), 4)
     incoming_message = radio.receive()
     if incoming_message:
         processed_message = process_message(incoming_message)
