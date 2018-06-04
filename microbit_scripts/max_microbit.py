@@ -1,26 +1,27 @@
 import microbit
 import radio
 
-message_types = {"00":'play_c', "01": 'vol_c'}
+message_types = {"00":'play_c', "01": 'vol_c'} #incoming hex messages are prepended by message types
 
-radio.config(power=7)
+radio.config(power=7) #radio full power
 
-radio.on()
+radio.on() #radio on
 
 def send_message(message):
-    radio.send(message)
-    microbit.display.clear()
-    processed_message = process_message(message)
-    pressed_col = processed_message.get('col')
-    for row in processed_message.get('rows'):
-        for idx, bit in enumerate(row):
-            if bit == 1:
-                pressed_row = idx
-                microbit.display.set_pixel(pressed_col, pressed_row, 9)
+    radio.send(message) #send the message straight onto cells
+    microbit.display.clear() #clear the display
+    processed_message = process_message(message) #process the message
+    if processed_message.get('msg_type') == 'play_c':
+        pressed_col = processed_message.get('col')
+        for row in processed_message.get('rows'):
+            for idx, bit in enumerate(row):
+                if bit == 1:
+                    pressed_row = idx
+                    microbit.display.set_pixel(pressed_col, pressed_row, 9)
 
 def to_bits(hex_input):
-    converted = int(hex_input, 16)
-    bits = [int(i) for i in '{0:05b}'.format(converted)]
+    converted = int(hex_input, 16) #convert hex to int
+    bits = [int(i) for i in '{0:05b}'.format(converted)] #convert int to list of bits
     return bits
 
 def hex_rows(hexstring):
